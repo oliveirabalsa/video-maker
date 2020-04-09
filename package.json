@@ -1,0 +1,19 @@
+{
+  "name": "video-maker",
+  "version": "1.0.0",
+  "description": "Video-maker robot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oliveirabalsa/video-maker.git"
+  },
+  "author": "Leonardo Oliveira Balsalobre",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oliveirabalsa/video-maker/issues"
+  },
+  "homepage": "https://github.com/oliveirabalsa/video-maker#readme"
+}
