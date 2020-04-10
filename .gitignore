@@ -103,7 +103,8 @@ dist
 # TernJS port file
 .tern-port
 
-.credetials/algorithmia.json
+#credentials
+.credetials/*.json
 
-.credetials/watson.json
+content.json
 
