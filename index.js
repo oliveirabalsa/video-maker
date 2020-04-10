@@ -12,6 +12,6 @@ await robots.text()
 
     console.dir(content, {depth: null})
 
-}
+} 
 
 start()    
