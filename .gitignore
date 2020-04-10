@@ -104,3 +104,6 @@ dist
 .tern-port
 
 .credetials/algorithmia.json
+
+.credetials/watson.json
+

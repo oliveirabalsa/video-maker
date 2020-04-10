@@ -19,6 +19,7 @@
   "dependencies": {
     "algorithmia": "^0.3.10",
     "readline-sync": "^1.4.10",
-    "sbd": "^1.0.17"
+    "sbd": "^1.0.17",
+    "watson-developer-cloud": "^4.0.1"
   }
 }

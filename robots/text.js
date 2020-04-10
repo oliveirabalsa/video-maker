@@ -1,19 +1,31 @@
 const algorithmia = require('algorithmia');
 const algorithmiaApiKey = require('../credentials/algorithmia').apiKey;
+const watsonApiKey = require('../credentials/watson').apikey;
 const sentenceBoundaryDetection = require('sbd');
+const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
+ 
+var nlu = new NaturalLanguageUnderstandingV1({
+  iam_apikey: watsonApiKey,
+  version: '2018-04-05',
+  url: 'https://api.eu-gb.natural-language-understanding.watson.cloud.ibm.com/instances/11649eb5-e1f6-4c5e-bac7-827d373bfd9f'
+});
 
 async function robot(content) {
   await fetchContentFromWikipedia(content);
   sanitizeContent(content);
   breakContentIntoSentence(content);
+  limitMaximumSentences(content)
+  await fetchKeywordsOfAllSentences(content)
+
+
 
   async function fetchContentFromWikipedia() {
     const algorithmiaAuthenticated = algorithmia(algorithmiaApiKey);
     const wikipediaAlgorithm = algorithmiaAuthenticated.algo(
       'web/WikipediaParser/0.1.2'
     );
-    const wikipediaResponde = await wikipediaAlgorithm.pipe(content.searchTerm);
-    const wikipediaContent = wikipediaResponde.get();
+    const wikipediaResposde = await wikipediaAlgorithm.pipe(content.searchTerm);
+    const wikipediaContent = wikipediaResposde.get();
 
     content.sourceContentOriginal = wikipediaContent.content;
   }
@@ -58,6 +70,37 @@ async function robot(content) {
       });
     });
   }
+
+  function limitMaximumSentences(content){ 
+    content.sentences = content.sentences.slice(0, content.maximumSentences)
+  }
+  async function fetchKeywordsOfAllSentences(content) {
+    for (const sentence of content.sentences) {
+      sentence.keywords = await fetchWatsonAndReturnKeywords(sentence.text)
+    }
+  }
+
+  async function fetchWatsonAndReturnKeywords(sentence){
+    return new Promise((resolve, reject) => {
+
+      nlu.analyze({
+        text: sentence,
+        features: {
+          keywords: {}
+        }
+      }, (error, response) => {
+        if (error) {
+          throw error
+        } 
+
+        const keywords = response.keywords.map((keyword) => {
+          return keyword.text 
+        })
+        resolve(keywords)
+      });
+    })
+
+  }  
 }
 
 module.exports = robot;
