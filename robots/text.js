@@ -1,5 +1,6 @@
 const algorithmia = require('algorithmia');
 const algorithmiaApiKey = require('../credentials/algorithmia').apiKey;
+const algorithmiaLang = require('../credentials/algorithmia').lang;
 const watsonApiKey = require('../credentials/watson').apikey;
 const sentenceBoundaryDetection = require('sbd');
 const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
@@ -27,8 +28,13 @@ state.save(content)
     const wikipediaAlgorithm = algorithmiaAuthenticated.algo(
       'web/WikipediaParser/0.1.2'
     );
-    const wikipediaResposde = await wikipediaAlgorithm.pipe(content.searchTerm);
-    const wikipediaContent = wikipediaResposde.get();
+    var term = {
+	    "articleName": content.searchTerm,
+	    "lang": algorithmiaLang
+    }
+    const wikipediaResponse = await wikipediaAlgorithm.pipe(term)
+    
+    const wikipediaContent = wikipediaResponse.get();
 
     content.sourceContentOriginal = wikipediaContent.content;
   }

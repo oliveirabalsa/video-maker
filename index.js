@@ -1,17 +1,18 @@
 const robots = {
   input: require('./robots/input.js'),
   text: require('./robots/text.js'),
-  state: require('./robots/state'),
-  image: require('./robots/image'),
-};
-
-async function start() {
-  const content = robots.state.load();
-  robots.input();
-  await robots.text();
-  await robots.image();
-
-  // console.dir(content, { depth: null });
+  state: require('./robots/state.js'),
+  image: require('./robots/image.js'),
+  video: require('./robots/video.js'),
+  youtube: require('./robots/youtube.js')
 }
 
-start();
+async function start() {
+  robots.input()
+  await robots.text()
+  await robots.image()
+  await robots.video()
+  // await robots.youtube()
+}
+
+start()
