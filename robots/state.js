@@ -9,7 +9,7 @@ function save(content) {
 
 function saveScript(content) {
   const contentString = JSON.stringify(content);
-  const scriptString = `var content = ${contentString}`;
+  const scriptString = `const content = ${contentString}`;
   return fs.writeFileSync(scriptFilePath, scriptString);
 }
 
