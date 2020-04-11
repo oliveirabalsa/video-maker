@@ -56,7 +56,7 @@ state.save(content)
     }
   }
   function removeDatesInParentheses(text) {
-    return text.replace(/\((?:\([^()*\)|[^()])*\)/gm, '').replace(/  /g, ' ');
+    return text.replace(/\((?:\([^()]*\)|[^()])*\)/gm, '').replace(/  /g,' ')
   }
 
   function breakContentIntoSentence(content) {
